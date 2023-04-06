@@ -1,0 +1,41 @@
+diff --git a/node_modules/@tryghost/kg-default-cards/lib/cards/index.js b/node_modules/@tryghost/kg-default-cards/lib/cards/index.js
+index 41f166d..c16852f 100644
+--- a/node_modules/@tryghost/kg-default-cards/lib/cards/index.js
++++ b/node_modules/@tryghost/kg-default-cards/lib/cards/index.js
+@@ -2,6 +2,7 @@ module.exports = [
+     require('./bookmark'),
+     require('./code'),
+     require('./email'),
++    require('./math'),
+     require('./email-cta'),
+     require('./embed'),
+     require('./gallery'),
+diff --git a/node_modules/@tryghost/kg-default-cards/lib/cards/math.js b/node_modules/@tryghost/kg-default-cards/lib/cards/math.js
+new file mode 100644
+index 0000000..fd835a3
+--- /dev/null
++++ b/node_modules/@tryghost/kg-default-cards/lib/cards/math.js
+@@ -0,0 +1,23 @@
++const {renderToString} = require('katex');
++
++module.exports = {
++    name: 'math',
++    type: 'dom',
++    config: {
++        commentWrapper: true
++    },
++
++    render: function ({payload, env: {dom}, options}) {
++        console.log('Math Card', payload);
++        // convert markdown to HTML ready for insertion into dom
++        let html = renderToString(payload.math || '', options);
++
++        if (!html) {
++            return dom.createTextNode('');
++        }
++
++        // use the SimpleDOM document to create a raw HTML section.
++        // avoids parsing/rendering of potentially broken or unsupported HTML
++        return dom.createRawHTMLSection(html);
++    }
++};

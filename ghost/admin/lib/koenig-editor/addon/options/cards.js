@@ -5,6 +5,7 @@ export const CARD_COMPONENT_MAP = {
     hr: 'koenig-card-hr',
     image: 'koenig-card-image',
     markdown: 'koenig-card-markdown',
+    math: 'koenig-card-math',
     'card-markdown': 'koenig-card-markdown', // backwards-compat with markdown editor
     html: 'koenig-card-html',
     code: 'koenig-card-code',
@@ -30,6 +31,7 @@ export const CARD_ICON_MAP = {
     hr: 'koenig/kg-card-type-divider',
     image: 'koenig/kg-card-type-image',
     markdown: 'koenig/kg-card-type-markdown',
+    math: 'koenig/kg-card-type-math',
     'card-markdown': 'koenig/kg-card-type-markdown',
     html: 'koenig/kg-card-type-html',
     code: 'koenig/kg-card-type-gen-embed',
@@ -55,6 +57,7 @@ export const CARD_ICON_MAP = {
 export default [
     createComponentCard('card-markdown'), // backwards-compat with markdown editor
     createComponentCard('code'),
+    createComponentCard('math'),
     createComponentCard('embed', {hasEditMode: false}),
     createComponentCard('bookmark', {hasEditMode: false}),
     createComponentCard('hr', {hasEditMode: false, selectAfterInsert: false}),
@@ -110,6 +113,15 @@ export const CARD_MENU = [
             matches: ['html'],
             type: 'card',
             replaceArg: 'html'
+        },
+        {
+            label: 'Math',
+            icon: 'koenig/kg-card-type-math',
+            desc: 'Insert a LaTeX math block',
+            iconClass: 'kg-card-type-native',
+            matches: ['math'],
+            type: 'card',
+            replaceArg: 'math'
         },
         {
             label: 'Gallery',
