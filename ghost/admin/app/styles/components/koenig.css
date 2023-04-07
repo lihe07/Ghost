@@ -651,6 +651,18 @@
     box-shadow: none;
 }
 
+/* Math
+/* --------------------------------------------------------------- */
+
+.koenig-card-math-rendered {
+    padding-top: 2px;
+    line-height: 1.8em;
+}
+
+.koenig-card-math-error {
+    color: red;
+}
+
 
 /* HTML editor
 /* --------------------------------------------------------------- */

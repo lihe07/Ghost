@@ -72,6 +72,7 @@ export const NO_CURSOR_MOVEMENT = 0;
 export const SPECIAL_MARKUPS = {
     S: '~~',
     CODE: '`',
+    MATH: '$',
     SUP: '^',
     SUB: '~'
 };

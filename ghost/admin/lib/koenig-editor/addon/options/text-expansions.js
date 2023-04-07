@@ -166,6 +166,14 @@ function _matchCode(editor, text) {
     }
 }
 
+// TODO: Implement
+function _matchMath(editor, text) {
+    let matches = text.match(/(?:^|\s)\$([^\s\$]+|[^\s\$][^\$]*[^\s\$])\$$/);
+    if (matches) {
+        // _addMarkdownMarkup(this, editor, matches, 'math');
+    }
+}
+
 function _matchSup(editor, text) {
     let matches = text.match(/\^([^\s^]+|[^\s^][^^]*[^\s^])\^$/);
     if (matches) {
@@ -295,7 +303,7 @@ function registerInlineMarkdownTextExpansions(mobiledocEditor) {
 
     mobiledocEditor.onTextInput({
         name: 'inline_markdown',
-        match: /[*_)~`^]$/,
+        match: /[*_)~`^\$]$/,
         run(editor, matches) {
             let text = editor.range.head.section.textUntil(editor.range.head);
 
@@ -318,6 +326,9 @@ function registerInlineMarkdownTextExpansions(mobiledocEditor) {
                 break;
             case '`':
                 _matchCode(editor, text);
+                break;
+            case '$':
+                _matchMath(editor, text);
                 break;
             case '^':
                 _matchSup(editor, text);
@@ -446,6 +457,26 @@ export default function (mobiledocEditor, koenig) {
             }
 
             koenig.send('replaceWithCardSection', 'code', section.toRange(), payload);
+        }
+    });
+
+    mobiledocEditor.onTextInput({
+        name: 'md_math',
+        match: /^\$\$$/,
+        run(editor) {
+            let {range: {head, head: {section}}} = editor;
+            
+            // Skip if cursor is not at end of section
+            if (!head.isTail()) {
+                return;
+            }
+
+            // Skip if section is a list item
+            if (section.isListItem) {
+                return;
+            }
+
+            koenig.send('replaceWithCardSection', 'math', section.toRange());
         }
     });
 

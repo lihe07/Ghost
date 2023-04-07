@@ -119,7 +119,7 @@ export const CARD_MENU = [
             icon: 'koenig/kg-card-type-math',
             desc: 'Insert a LaTeX math block',
             iconClass: 'kg-card-type-native',
-            matches: ['math'],
+            matches: ['math', 'latex'],
             type: 'card',
             replaceArg: 'math'
         },

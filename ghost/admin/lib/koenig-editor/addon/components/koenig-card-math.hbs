@@ -21,7 +21,7 @@
             @update={{action "updateMath"}}
         />
     {{else}}
-        <div style="padding-top: 2px">{{{this.rendered}}}</div>
+        <div class="{{if isError "koenig-card-math-rendered koenig-card-math-error" "koenig-card-math-rendered" }}">{{{this.rendered}}}</div>
         <div class="koenig-card-click-overlay"></div>
     {{/if}}
 </KoenigCard>

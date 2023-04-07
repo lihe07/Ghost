@@ -28,7 +28,7 @@ export default class KoenigCardMath extends Component {
 
     @computed('payload.math')
     get counts() {
-        // Math expressions count for no words
+        // Math expressions do not count for words
         return {
             wordCount: 0,
             imageCount: 0
@@ -41,6 +41,16 @@ export default class KoenigCardMath extends Component {
             return renderToString(this.payload.math, {displayMode: true});
         } catch (e) {
             return e;
+        }
+    }
+
+    @computed('payload.math')
+    get isError() {
+        try {
+            renderToString(this.payload.math, {displayMode: true});
+            return false;
+        } catch (e) {
+            return true;
         }
     }
 

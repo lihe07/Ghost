@@ -3,6 +3,7 @@ const errors = require('@tryghost/errors');
 const logging = require('@tryghost/logging');
 const config = require('../../shared/config');
 const storage = require('../adapters/storage');
+const mathCard = require('./math-card');
 
 let cardFactory;
 let cards;
@@ -28,6 +29,8 @@ module.exports = {
         if (!cards) {
             const CardFactory = require('@tryghost/kg-card-factory');
             const defaultCards = require('@tryghost/kg-default-cards');
+
+            defaultCards.push(mathCard);
 
             cardFactory = new CardFactory({
                 siteUrl: config.get('url'),
