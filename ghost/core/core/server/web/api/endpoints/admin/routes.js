@@ -29,6 +29,7 @@ module.exports = function apiRoutes() {
     router.get('/posts/export', mw.authAdminApi, http(api.posts.exportCSV));
 
     router.post('/posts', mw.authAdminApi, http(api.posts.add));
+    router.del('/posts', mw.authAdminApi, http(api.posts.bulkDestroy));
     router.put('/posts/bulk', mw.authAdminApi, http(api.posts.bulkEdit));
     router.get('/posts/:id', mw.authAdminApi, http(api.posts.read));
     router.get('/posts/slug/:slug', mw.authAdminApi, http(api.posts.read));
@@ -41,6 +42,8 @@ module.exports = function apiRoutes() {
 
     // ## Pages
     router.get('/pages', mw.authAdminApi, http(api.pages.browse));
+    router.del('/pages', mw.authAdminApi, http(api.pages.bulkDestroy));
+    router.put('/pages/bulk', mw.authAdminApi, http(api.pages.bulkEdit));
     router.post('/pages', mw.authAdminApi, http(api.pages.add));
     router.get('/pages/:id', mw.authAdminApi, http(api.pages.read));
     router.get('/pages/slug/:slug', mw.authAdminApi, http(api.pages.read));

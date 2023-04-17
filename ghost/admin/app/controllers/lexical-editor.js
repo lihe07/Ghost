@@ -23,6 +23,7 @@ import {isArray as isEmberArray} from '@ember/array';
 import {isHostLimitError, isServerUnreachableError, isVersionMismatchError} from 'ghost-admin/services/ajax';
 import {isInvalidError} from 'ember-ajax/errors';
 import {inject as service} from '@ember/service';
+import {tracked} from '@glimmer/tracking';
 
 const DEFAULT_TITLE = '(Untitled)';
 
@@ -115,6 +116,7 @@ export default class LexicalEditorController extends Controller {
 
     shouldFocusTitle = false;
     showSettingsMenu = false;
+    @tracked showPostHistory = false;
 
     /**
      * Flag used to determine if we should return to the analytics page or to the posts/pages overview
@@ -170,9 +172,15 @@ export default class LexicalEditorController extends Controller {
 
     @computed('_snippets.@each.{name,isNew}')
     get snippets() {
-        return this._snippets
+        const snippets = this._snippets
             .reject(snippet => snippet.get('isNew'))
-            .sort((a, b) => a.name.localeCompare(b.name));
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .filter(item => item.lexical !== null);
+        return snippets.map((item) => {
+            item.value = item.lexical;
+
+            return item;
+        });
     }
 
     @computed('session.user.{isAdmin,isEditor}')
@@ -343,7 +351,8 @@ export default class LexicalEditorController extends Controller {
 
     @action
     saveSnippet(snippet) {
-        let snippetRecord = this.store.createRecord('snippet', snippet);
+        const snippetData = {name: snippet.name, lexical: snippet.value, mobiledoc: '{}'};
+        let snippetRecord = this.store.createRecord('snippet', snippetData);
         return snippetRecord.save().then(() => {
             this.notifications.closeAlerts('snippet.save');
             this.notifications.showNotification(
@@ -364,6 +373,18 @@ export default class LexicalEditorController extends Controller {
     }
 
     @action
+    async createSnippet(data) {
+        const snippetNameLC = data.name.trim().toLowerCase();
+        const existingSnippet = this.snippets.find(snippet => snippet.name.toLowerCase() === snippetNameLC);
+
+        if (existingSnippet) {
+            await this.confirmUpdateSnippet(existingSnippet, {lexical: data.value, mobiledoc: '{}'});
+        } else {
+            await this.saveSnippet(data);
+        }
+    }
+
+    @action
     async confirmUpdateSnippet(snippet, updatedProperties = {}) {
         await this.modals.open(UpdateSnippetModal, {
             snippet,
@@ -376,6 +397,16 @@ export default class LexicalEditorController extends Controller {
         await this.modals.open(DeleteSnippetModal, {
             snippet
         });
+    }
+
+    @action
+    openPostHistory() {
+        this.showPostHistory = true;
+    }
+
+    @action
+    closePostHistory() {
+        this.showPostHistory = false;
     }
 
     /* Public tasks ----------------------------------------------------------*/

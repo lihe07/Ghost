@@ -286,7 +286,7 @@ export default ModalComponent.extend({
             this.settings.hasValidated.removeObject('portalSignupTermsHtml');
 
             if (content.length > this.maxTermsLength) {
-                this.settings.errors.add('portalSignupTermsHtml', 'Too many characters');
+                this.settings.errors.add('portalSignupTermsHtml', 'Signup notice is too long');
                 this.settings.hasValidated.pushObject('portalSignupTermsHtml');
             }
         }

@@ -1,0 +1,19 @@
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div class="gh-post-history">
+    <div class="modal-fullsettings-sidebar-labs">
+        <div class="modal-fullsettings-sidebar-header">
+            <h2 class="modal-fullsettings-heading-labs">Post history</h2>
+            <button
+                type="button" {{action "closeModal"}}
+                class="gh-btn-icon"
+                {{!-- disable mouseDown so it doesn't trigger focus-out validations --}}
+                {{on "mousedown" (optional this.noop)}}
+            >
+                        {{svg-jar "close"}}
+            </button>
+        </div>
+    </div>
+    <div class="gh-post-history-main">
+
+    </div>
+</div>

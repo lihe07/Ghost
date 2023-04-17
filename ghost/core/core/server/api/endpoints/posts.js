@@ -105,7 +105,7 @@ module.exports = {
         validation: {
             options: {
                 include: {
-                    values: allowedIncludes
+                    values: [...allowedIncludes, 'post_revisions']
                 },
                 formats: {
                     values: models.Post.allowedFormats
@@ -205,7 +205,9 @@ module.exports = {
 
     bulkEdit: {
         statusCode: 200,
-        headers: {},
+        headers: {
+            cacheInvalidate: true
+        },
         options: [
             'filter'
         ],
@@ -216,8 +218,7 @@ module.exports = {
         validation: {
             data: {
                 action: {
-                    required: true,
-                    values: ['feature', 'unfeature']
+                    required: true
                 }
             },
             options: {
@@ -231,6 +232,22 @@ module.exports = {
         },
         async query(frame) {
             return await postsService.bulkEdit(frame.data.bulk, frame.options);
+        }
+    },
+
+    bulkDestroy: {
+        statusCode: 200,
+        headers: {
+            cacheInvalidate: true
+        },
+        options: [
+            'filter'
+        ],
+        permissions: {
+            method: 'destroy'
+        },
+        async query(frame) {
+            return await postsService.bulkDestroy(frame.options);
         }
     },
 

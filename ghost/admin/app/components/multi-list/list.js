@@ -24,9 +24,10 @@ export default class ListComponent extends Component {
 
     willDestroy() {
         super.willDestroy(...arguments);
-        window.removeEventListener('keydown', this.onKeyDow, {passive: true});
+        window.removeEventListener('keydown', this.onKeyDown, {passive: true});
         window.removeEventListener('keyup', this.onKeyUp, {passive: true});
         window.removeEventListener('click', this.onWindowClicked, {passive: true});
+        window.removeEventListener('blur', this.onWindowBlur, {passive: true});
     }
 
     @action
@@ -34,6 +35,7 @@ export default class ListComponent extends Component {
         window.addEventListener('keydown', this.onKeyDown, {passive: false});
         window.addEventListener('keyup', this.onKeyUp, {passive: true});
         window.addEventListener('click', this.onWindowClicked, {passive: true});
+        window.addEventListener('blur', this.onWindowBlur, {passive: true});
     }
 
     @action
@@ -42,6 +44,19 @@ export default class ListComponent extends Component {
         if (!event.metaKey && !event.ctrlKey) {
             this.selectionList.clearSelection();
         }
+
+        // Update the status (in case we didn't receive an keyup event)
+        this.shiftPressed = !!event.shiftKey;
+        this.metaPressed = !!event.metaKey;
+        this.ctrlPressed = !!event.ctrlKey;
+    }
+
+    @action
+    onWindowBlur() {
+        // This is required because the keyup event won't be fired again
+        this.ctrlPressed = false;
+        this.metaPressed = false;
+        this.shiftPressed = false;
     }
 
     @action

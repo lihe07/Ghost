@@ -36,9 +36,11 @@ const ALPHA_FEATURES = [
     'urlCache',
     'migrateApp',
     'lexicalEditor',
+    'lexicalMultiplayer',
     'websockets',
     'stripeAutomaticTax',
-    'makingItRain'
+    'makingItRain',
+    'postHistory'
 ];
 
 module.exports.GA_KEYS = [...GA_FEATURES];

@@ -217,6 +217,19 @@
                 <div class="gh-expandable-block">
                     <div class="gh-expandable-header">
                         <div>
+                            <h4 class="gh-expandable-title">Lexical multiplayer</h4>
+                            <p class="gh-expandable-description">
+                                Enables multiplayer editing in the lexical editor.
+                            </p>
+                        </div>
+                        <div class="for-switch">
+                            <GhFeatureFlag @flag="lexicalMultiplayer" />
+                        </div>
+                    </div>
+                </div>
+                <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
                             <h4 class="gh-expandable-title">Webmentions</h4>
                             <p class="gh-expandable-description">
                                 Allows viewing received mentions on the dashboard.
@@ -289,6 +302,19 @@
                         </div>
                         <div class="for-switch">
                             <GhFeatureFlag @flag="migrateApp" />
+                        </div>
+                    </div>
+                </div>
+                <div class="gh-expandable-block">
+                    <div class="gh-expandable-header">
+                        <div>
+                            <h4 class="gh-expandable-title">Post history</h4>
+                            <p class="gh-expandable-description">
+                                Enables post history revision within the editor
+                            </p>
+                        </div>
+                        <div class="for-switch">
+                            <GhFeatureFlag @flag="postHistory" />
                         </div>
                     </div>
                 </div>
